@@ -79,7 +79,7 @@ class PersonControllerUnitTest {
     public void shouldAcceptOnlyFilter() throws Exception {
 
         this.mockMvc.perform(get("/v1/person/find")
-                .param("name", "Person"))
+                .param("name", "person"))
                 .andExpect(status().isOk());
 
         verify(service).find(ArgumentMatchers.eq("person"),
