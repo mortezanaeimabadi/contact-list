@@ -27,8 +27,17 @@ public class PersonController {
     }
 
 
-    @GetMapping
-    public ModelAndView find(
+    @GetMapping("/find")
+    public Page<Person> find(
+            @RequestParam(defaultValue="") String name,
+            @RequestParam Optional<Integer> pageNumber,
+            @RequestParam Optional<Integer> pageSize) {
+
+        return personService.find(name, pageNumber.orElse(null), pageSize.orElse(null));
+    }
+
+    @GetMapping("/view")
+    public ModelAndView index(
             @RequestParam(defaultValue="") String name,
             @RequestParam Optional<Integer> pageNumber,
             @RequestParam Optional<Integer> pageSize,
