@@ -14,7 +14,7 @@
 <body>
 <div id="container mt-5">
     <nav class="navbar navbar-light bg-light">
-        <form class="form-inline mt-5" th:action="@{'/v1/person'}" method="get" style="margin: auto;">
+        <form class="form-inline mt-5" th:action="@{'/v1/person/view'}" method="get" style="margin: auto;">
             <div class="input-group">
             <input class="form-control mr-sm-2" style="width: 600px" type="search" placeholder="Search" aria-label="Search" th:name="name">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
@@ -22,9 +22,14 @@
             <div class="input-group">
                 <nav aria-label="Page navigation example">
                     <ul class="pagination">
-                        <li class="page-item"><a class="page-link" href="#">Previous</a></li>
                         <li class="page-item">
-                            <a class="page-link" th:href="@{'/v1/person?pageNumber=' + ${responseEntity.page['currentPage'] + 1} + '&pageSize=50'}"
+                            <a class="page-link" th:href="@{'/v1/person/view?pageNumber=' + ${responseEntity.page['currentPage'] - 1} + '&pageSize=50'}"
+                               th:if="${responseEntity.page['currentPage'] < responseEntity.page['totalPages']}">
+                                Previous
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" th:href="@{'/v1/person/view?pageNumber=' + ${responseEntity.page['currentPage'] + 1} + '&pageSize=50'}"
                                th:if="${responseEntity.page['currentPage'] < responseEntity.page['totalPages']}">
                                 Next
                             </a>
@@ -44,25 +49,11 @@
                 Total Items: [[${responseEntity.page['totalPages']}]]
             </div>
             <div>
-                <span th:each="i: ${#numbers.sequence(1, responseEntity.page['totalPages'])}">
-                    <a th:href="@{'/v1/person?pageNumber=' + ${i} + '&pageSize=50'}"
+                <span th:each="i: ${#numbers.sequence(0, responseEntity.page['totalPages']-1)}">
+                    <a th:href="@{'/v1/person/view?pageNumber=' + ${i} + '&pageSize=50'}"
                        th:if="${responseEntity.page['currentPage'] != i}">[[${i}]]</a>
                     <span th:unless="${responseEntity.page['currentPage'] != i}">[[${i}]]</span>
                 </span>
-            </div>
-            <div>
-                <a th:href="@{'/v1/person?pageNumber=' + ${responseEntity.page['currentPage'] + 1} + '&pageSize=50'}"
-                   th:if="${responseEntity.page['currentPage'] < responseEntity.page['totalPages']}">
-                    Next
-                </a>
-                <span th:unless="${responseEntity.page['currentPage'] < responseEntity.page['totalPages']}">Next</span>
-            </div>
-            <div>
-                <a th:href="@{'/v1/person?pageNumber=' + ${responseEntity.page['totalPages']} + '&pageSize=50'}"
-                   th:if="${responseEntity.page['currentPage'] < responseEntity.page['totalPages']}">
-                    Last
-                </a>
-                <span th:unless="${responseEntity.page['currentPage'] < responseEntity.page['totalPages']}">Last</span>
             </div>
         </div>
     </div>
@@ -79,7 +70,8 @@
         <tr th:each="person : ${responseEntity.people}">
             <td th:text="${person.id}"></td>
             <td th:text="${person.name}"></td>
-            <td th:text="${person.photoUrl}"></td>
+<!--            <td th:text="${person.photoUrl}"-->
+            <td ><img th:src="${person.photoUrl}"/></td>
         </tr>
         </tbody>
     </table>

@@ -13,7 +13,7 @@ Initial list is one-time populated with people.csv. Contact addition/removal/edi
 
 
 ## Requirements 
-apache maven <br/>
+apache maven <br/>****
 
 
 ## Build
