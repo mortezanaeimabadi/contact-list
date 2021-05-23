@@ -23,14 +23,23 @@
                 <nav aria-label="Page navigation example">
                     <ul class="pagination">
                         <li class="page-item">
+<!--                            <h2 th:text="${param.name != null} ? 'Hello' : 'Something else'"></h2>-->
+                            <a class="page-link" th:href="@{'/v1/person/view'}"
+                               th:style="${param.name != null} ? 'display:block' : 'display:none'">
+                                HOME
+                            </a>
+                        </li>
+                        <li class="page-item">
                             <a class="page-link" th:href="@{'/v1/person/view?pageNumber=' + ${responseEntity.page['currentPage'] - 1} + '&pageSize=50'}"
-                               th:if="${responseEntity.page['currentPage'] < responseEntity.page['totalPages']}">
+                               th:if="${responseEntity.page['currentPage'] < responseEntity.page['totalPages']}"
+                               th:style="${param.name != null} ? 'display:none' : 'display:block'">
                                 Previous
                             </a>
                         </li>
                         <li class="page-item">
                             <a class="page-link" th:href="@{'/v1/person/view?pageNumber=' + ${responseEntity.page['currentPage'] + 1} + '&pageSize=50'}"
-                               th:if="${responseEntity.page['currentPage'] < responseEntity.page['totalPages']}">
+                               th:if="${responseEntity.page['currentPage'] < responseEntity.page['totalPages']}"
+                               th:style="${param.name != null} ? 'display:none' : 'display:block'">
                                 Next
                             </a>
                         </li>
